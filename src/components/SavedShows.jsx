@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import {AiOutlineClose} from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
 const SavedShows = () => {
   const [movies, setMovies] = useState([]);
@@ -24,29 +24,36 @@ const SavedShows = () => {
     });
   }, [user?.email]);
 
-  const movieRef=doc(db,'users',`${user?.email}`);
-  const deleteShow = async (passedID)=>{
-    try{
-      const result = movies.filter((item)=> item.id !== passedID);
-      await updateDoc(movieRef,{
-        savedShows:result
-      })
-    }catch(error){
-      console.log(error)
+  const movieRef = doc(db, "users", `${user?.email}`);
+  const deleteShow = async (passedID) => {
+    try {
+      const result = movies.filter((item) => item.id !== passedID);
+      await updateDoc(movieRef, {
+        savedShows: result,
+      });
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
       <h2 className="text-white font-bold md:text-xl p-4">My Shows</h2>
       <div className="relative flex items-center group">
-      <MdChevronLeft onClick={slideLeft} size={40} className="bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block"/>
+        <MdChevronLeft
+          onClick={slideLeft}
+          size={40}
+          className="bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block"
+        />
         <div
           id={"slider"}
           className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative"
         >
           {movies.map((item) => (
-            <div key={item.id} className="w-[160px] sm:w-[200px] lg:w-[280px] inline-block cursor-pointer relative p-2">
+            <div
+              key={item.id}
+              className="w-[160px] sm:w-[200px] lg:w-[280px] inline-block cursor-pointer relative p-2"
+            >
               <img
                 className="w-full h-auto block"
                 src={`https://image.tmdb.org/t/p/w500/${item?.img}`}
@@ -56,12 +63,21 @@ const SavedShows = () => {
                 <p className=" white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">
                   {item?.title}
                 </p>
-                <p onClick={()=>deleteShow(item.id)} className="absolute text-white top-4 right-4"><AiOutlineClose/></p>
+                <p
+                  onClick={() => deleteShow(item.id)}
+                  className="absolute text-white top-4 right-4"
+                >
+                  <AiOutlineClose />
+                </p>
               </div>
             </div>
           ))}
         </div>
-        <MdChevronRight onClick={slideRight} size={40} className="bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block" />
+        <MdChevronRight
+          onClick={slideRight}
+          size={40}
+          className="bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block"
+        />
       </div>
     </>
   );

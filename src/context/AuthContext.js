@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  signInAnonymously,
+ 
 } from "firebase/auth";
 import { setDoc,doc } from "firebase/firestore";
 
